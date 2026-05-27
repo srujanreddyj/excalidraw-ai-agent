@@ -7,8 +7,8 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "docs": "vitepress dev lessons --port=5170",
-    "docs:build": "vitepress build lessons",
+    // "docs": "vitepress dev lessons --port=5170",
+    // "docs:build": "vitepress build lessons",
     "agent": "node scripts/test-agent.mjs",
     "eval": "dotenv -e .dev.vars -- braintrust eval evals/diagram.eval.ts",
     "embed": "dotenv -e .dev.vars -- tsx src/rag/embed.ts"
