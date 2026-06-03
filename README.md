@@ -1,4 +1,3 @@
-cat > README.md <<'EOF'
 # Excalidraw AI Agent
 
 An AI-powered diagramming app that lets users generate, inspect, and modify Excalidraw diagrams through a chat-based agent.
