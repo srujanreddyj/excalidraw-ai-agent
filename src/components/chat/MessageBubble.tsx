@@ -5,9 +5,31 @@ import "../streaming/streaming.css";
 
 interface MessageBubbleProps {
   message: UIMessage;
+  onFeedback?: (traceId: string, rating: "up" | "down") => void;
+  onViewTrace?: (traceId: string) => void;
 }
 
-export default function MessageBubble({ message }: MessageBubbleProps) {
+function getTextContent(message: UIMessage): string {
+  return (
+    message.parts
+      ?.filter((part) => part.type === "text")
+      .map((part) => part.text)
+      .join("\n") ?? ""
+  );
+}
+
+function extractTraceId(message: UIMessage): string | null {
+  const match = getTextContent(message).match(/Trace:\s*(trace_[a-zA-Z0-9_]+)/);
+  return match?.[1] ?? null;
+}
+
+export default function MessageBubble({
+  message,
+  onFeedback,
+  onViewTrace,
+}: MessageBubbleProps) {
+  const traceId = message.role === "assistant" ? extractTraceId(message) : null;
+
   return (
     <div className={`message-bubble ${message.role}`}>
       <div className="message-role">
@@ -39,6 +61,25 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
           return null;
         })}
       </div>
+      {traceId && (onFeedback || onViewTrace) && (
+        <div className="message-actions" aria-label="Trace actions">
+          {onViewTrace && (
+            <button type="button" onClick={() => onViewTrace(traceId)}>
+              View trace
+            </button>
+          )}
+          {onFeedback && (
+            <>
+              <button type="button" onClick={() => onFeedback(traceId, "up")}>
+                Good
+              </button>
+              <button type="button" onClick={() => onFeedback(traceId, "down")}>
+                Bad
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,9 @@
 node_modules
 dist
 .dev.vars
+.env
+.env.local
+.env.*.local
 .wrangler
 *.log
 openspec
@@ -12,4 +15,7 @@ notes
 evals/results
 
 CLAUDE.md
-python_agent/
+__pycache__/
+*.py[cod]
+python_agent/.data/
+python_agent/runs/
